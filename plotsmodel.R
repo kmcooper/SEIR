@@ -12,22 +12,33 @@ library("forecast")
 library("igraph")
 
 #######################################
+###     User-defined variables      ###
+#######################################
+workingDir <- ("/Users/katedempsey/git/seir/")
+year <- 2015
+reportsFile <- "/Users/katedempsey/git/seir/reports.csv"
+populationFile <-"/Users/katedempsey/git/seir/population.csv"
+
+#######################################
 ###     Input data                  ###
 #######################################
-n <- readline(prompt="Enter an integer: ")
-year<- as.integer(n)
-setwd("~/Dropbox/SEIR/")
-input<- read.table("reports.csv",sep=",",header=TRUE)
+
+#year <- readline(prompt="Enter an integer: ")
+input<- read.table(reportsFile,sep=",",header=TRUE)
 input<- as.matrix(input)
-Nebraskapopulation<- read.table("population.csv",sep=",",header=TRUE)
-Nebraskapopulation<- as.matrix(Nebraskapopulation, ncol=2)
-for(i in 1:18)
+Nebraska_population_allyears<- as.matrix(read.table(populationFile,sep=",",header=TRUE),ncol=2)
+
+#What is going on here?
+#Why 1:18?
+#Does Ntemp mean the population? Can we rename it? I thought it was temperature.
+for(i in 1:18){
   if(input[i,1]==year)
   {
     
     inputtemp<- as.numeric(input[i,2:54])
-    Ntemp<- as.numeric(Nebraskapopulation[i,2])
+    Nebraska_population_temp<- as.numeric(Nebraska_population[i,2])
   }
+}
 
 I<-as.numeric(inputtemp)
 ########################################
