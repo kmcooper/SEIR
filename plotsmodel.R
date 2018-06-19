@@ -1,9 +1,18 @@
+#################################################
+# Source: SEIR Network Model                      
+# Author: Kimia Ameri (hameri@unomaha.edu)      
+# Date:   Unknown             
+# Edited: 06.19.2018 by Kate Cooper kmcooper@unomaha.edu                      
+#################################################
+
+#Load required libraries
 library("EpiDynamics")
 library("deSolve")
 library("forecast")
 library("igraph")
+
 #######################################
-###     input data                  ###
+###     Input data                  ###
 #######################################
 n <- readline(prompt="Enter an integer: ")
 year<- as.integer(n)
