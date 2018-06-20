@@ -12,18 +12,23 @@ library("forecast")
 library("igraph")
 
 #######################################
-###     User-defined variables      ###
+###     User-defined Variables      ###
 #######################################
-workingDir <- ("/Users/katedempsey/git/seir/")
+workingDir <- ("/Users/katedempsey/git/seir/SEIR/")
 year <- 2015
-reportsFile <- "/Users/katedempsey/git/seir/reports.csv"
-populationFile <-"/Users/katedempsey/git/seir/population.csv"
+reportsFile <- "/Users/katedempsey/git/seir/SEIR/reports.csv"
+populationFile <-"/Users/katedempsey/git/seir/SEIR/population.csv"
+m <- 13     #The constant out-degree of variables in the AB network model
+power <- 1  #The power of the AB network model
+
+#######################################
+###    Initialize other  Variables  ###
+#######################################
+I<-0  #I is the number of infected individuals 
 
 #######################################
 ###     Input data                  ###
 #######################################
-
-#year <- readline(prompt="Enter an integer: ")
 input<- read.table(reportsFile,sep=",",header=TRUE)
 input<- as.matrix(input)
 Nebraska_population_allyears<- as.matrix(read.table(populationFile,sep=",",header=TRUE),ncol=2)
@@ -32,32 +37,34 @@ Nebraska_population_allyears<- as.matrix(read.table(populationFile,sep=",",heade
 #Why 1:18?
 #Does Ntemp mean the population? Can we rename it? I thought it was temperature.
 for(i in 1:18){
-  if(input[i,1]==year)
+  if(Nebraska_population_allyears[i,1]==year)
   {
-    
-    inputtemp<- as.numeric(input[i,2:54])
+    infected_population_temp<- as.numeric(input[i,2:54])
     Nebraska_population_temp<- as.numeric(Nebraska_population[i,2])
   }
 }
 
-I<-as.numeric(inputtemp)
+
 ########################################
-###          make babarabsi          ###
+### Make a Barabasi network model    ###
 ########################################
-#for(j in 1:100)
-#{
- # print(j)
-  net<-barabasi.game(Ntemp,m=13, directed = FALSE,power=1)
-  x<-c()
-  for (i in 1:1000)
-  {
-    r<-as.integer(runif(1,1,Ntemp))
-    ne<-neighbors(net,r,mode ="all")
-    x<-c(x,length(ne))
-    
-  }
+net<-barabasi.game(
+  n=Nebraska_population_temp, # The number of nodes is the Nebraska population for that year
+  m=m,                     # The constant out-degree of variables
+  directed = FALSE,
+  power=power,
+)
+
+x<-c()
+for (i in 1:1000)
+{
+  r<-as.integer(runif(1,1,Ntemp))
+  ne<-neighbors(net,r,mode ="all")
+  x<-c(x,length(ne))
   
-  (E<-as.integer(mean(x)))
+}
+
+(E<-as.integer(mean(x)))
   
   ########################################
   ###            set parameters        ###
