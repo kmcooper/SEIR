@@ -74,9 +74,10 @@ for (i in 1:1000)
   S<-(Ntemp-I-R)* 0.90
   N<- as.integer(S+E+I+R)
   mu<-0.0000085   # population rate
-  beta<- 0.9      # susceptible-infected transmission to exposure
-  sigma <- 0.5    # transmission from exposed to infected
+  beta<- 365/14      # susceptible-infected transmission to exposure
+  sigma <- 365/8    # transmission from exposed to infected
   gamma<- 0.2     # transmission from infected to recovered
+  v<- 86.8     # Vaccination coverage
   init       <- c(S=S, E=E, I=I, R=R)
   parameters <- c(beta=beta, gamma=gamma, mu=mu, sigma=sigma)
   times      <- seq(0, 52, by = 1)
@@ -87,10 +88,10 @@ for (i in 1:1000)
     
     with(as.list(c(state, parameters)), {
       
-      dS=(mu*(N-S))-(beta*((S*I)/N))-S
+      dS=(mu*(N-S))-(beta*((S*I)/N))-(v*S)
       dE=(beta*(S*I)/N)-((mu+sigma)*E)
       dI=(sigma*E)-((mu+gamma)*I)
-      dR=(gamma*I)-(mu*R)+S
+      dR=(gamma*I)-(mu*R)+(v*S)
       
       return(list(c(dS, dE, dI, dR)))
     })
@@ -122,9 +123,10 @@ S<-(Ntemp-I-R)* 0.90
 E<-(Ntemp-I-R)* 0.10
 N<- as.integer(S+E+I+R)
 mu<-0.0000085   # population rate
-beta<- 0.9      # susceptible-infected transmission to exposure
-sigma <- 0.5    # transmission from exposed to infected
+beta<- 365/14      # susceptible-infected transmission to exposure
+sigma <- 365/8    # transmission from exposed to infected
 gamma<- 0.2     # transmission from infected to recovered
+v<- 86.8     # Vaccination coverage
 init       <- c(S=S, E=E, I=I, R=R)
 parameters <- c(beta=beta, gamma=gamma, mu=mu, sigma=sigma)
 times      <- seq(0, 52, by = 1)
@@ -135,10 +137,10 @@ seir <- function(time, state, parameters) {
   
   with(as.list(c(state, parameters)), {
     
-    dS=(mu*(N-S))-(beta*((S*I)/N))-S
+    dS=(mu*(N-S))-(beta*((S*I)/N))-(v*S)
     dE=(beta*(S*I)/N)-((mu+sigma)*E)
     dI=(sigma*E)-((mu+gamma)*I)
-    dR=(gamma*I)-(mu*R)+S
+    dR=(gamma*I)-(mu*R)+(v*S)
     
     return(list(c(dS, dE, dI, dR)))
   })
