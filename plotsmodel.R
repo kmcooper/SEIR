@@ -74,8 +74,8 @@ for (i in 1:1000)
   S<-(Ntemp-I-R)* 0.90
   N<- as.integer(S+E+I+R)
   mu<-0.0000085   # population rate
-  beta<- 365/14      # susceptible-infected transmission to exposure
-  sigma <- 365/8    # transmission from exposed to infected
+  beta<- 0.9      # susceptible-infected transmission to exposure
+  sigma <- 0.5    # transmission from exposed to infected
   gamma<- 0.2     # transmission from infected to recovered
   v<- 86.8     # Vaccination coverage
   init       <- c(S=S, E=E, I=I, R=R)
@@ -123,8 +123,8 @@ S<-(Ntemp-I-R)* 0.90
 E<-(Ntemp-I-R)* 0.10
 N<- as.integer(S+E+I+R)
 mu<-0.0000085   # population rate
-beta<- 365/14      # susceptible-infected transmission to exposure
-sigma <- 365/8    # transmission from exposed to infected
+beta<- 0.9      # susceptible-infected transmission to exposure
+sigma <- 0.5    # transmission from exposed to infected
 gamma<- 0.2     # transmission from infected to recovered
 v<- 86.8     # Vaccination coverage
 init       <- c(S=S, E=E, I=I, R=R)
